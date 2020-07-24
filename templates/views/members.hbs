@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <title></title>
+    {{!-- <link href="css/landing-page.min.css" rel="stylesheet"> --}}
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <p>
+            <a href="/">Return to Home</a> |
+            <a href="/registermember">Register A New Member</a> |
+            <a href="/addvisitor">Register A New Visitor</a> |
+            <a href="/adminboard">Return to Admin Board</a>
+        </p>
+        <h1>{{title}}</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+
+            {{#each members}}
+            <tbody>
+                <tr>
+                    <th scope="row">{{inc @index}}</th>
+                    <td><a href="/memberProfile/{{_id}}">{{firstname}}</a></td>
+                    <td><a href="/memberProfile/{{_id}}">{{lastname}}</td>
+                </tr>
+            </tbody>
+            {{/each}}
+        </table>
+    </div>
+</body>
+
+</html>

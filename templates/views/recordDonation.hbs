@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Church Managment System</title>
+    <link rel="icon" href="/images/weather.png">
+    <link rel="stylesheet" href="/css/styles.css">
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+        type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/landing-page.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+    {{!-- {{>nav}} --}}
+
+    <div class="container">
+        <p>
+            <a href="/">Return to Home</a> |
+            <a href="/adminboard">Return to Admin Board</a> |
+            {{#if membId}}<a href="/memberProfile/{{membId}}">Back to Profile</a>{{/if}}
+            {{#if guestId}}<a href="/visitorProfile/{{guestId}}">Back to Profile</a>{{/if}}
+        </p>
+        <div class="row justify-content-center">
+            <form id="donation">
+
+                <h3>{{title}}</h3><br />
+                <input type="hidden" id="donId" name="donatedBy"
+                    value={{#if membId}}{{membId}}{{else}}{{guestId}}{{/if}} />
+                <input type="hidden" id="refmodel" name="refModel"
+                    value={{#if membId}}"Member"{{else}}"Newcomer"{{/if}} />
+                <div class=" form-group col-md-12">
+                    <label for="exampleInputPassword1">Firstname: {{firstname}}</label>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="exampleInputPassword1">Lastname: {{lastname}} </label>
+
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="exampleInputEmail1">Amount:</label>
+                    <input type="text" class="form-control" id="amount" aria-describedby="amount"
+                        placeholder="Donation Amount" name="amount">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="donation_date">Donation Date:</label>
+                    <input type="date" class="form-control" id="donation_date" placeholder="" name="donationDate">
+                </div>
+                <p style="color: red">{{#if err}}Errors filling forms: {{err}}{{/if}}</p>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+        </div>
+    </div>
+    </form><br />
+    <div style="text-align: center;">
+        <p><a href="/">Return to Home</a>&nbsp;|
+            <a href="/members">Members</a></p>
+    </div>
+    <script type="text/javascript">
+        $("#donation").on("submit", function (event) {
+            event.preventDefault(); // Stop the form from causing a page refresh.
+            var data = {
+                donatedBy: $("#donId").val(),
+                amount: $("#amount").val(),
+                donationDate: $("#donation_date").val(),
+                refModel: $("#refmodel").val(),
+            };
+            console.log(data);
+            $.ajax({
+                url: "/donation",
+                data: data,
+                method: "POST",
+            })
+                .then(function (response) {
+                    window.location.reload(true);
+                    alert("You have successfully added the donation", response);
+                })
+                .catch(function (err) {
+                    console.error(err);
+                });
+        });
+    </script>
+
+    {{>footer}}
+</body>
+
+</html>

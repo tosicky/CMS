@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <title></title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body style="text-align: center;">
+    <a href="/">Return
+        to Home</a> |
+    <a href="/members">View All Members</a> |
+    <a href="/adminboard">Return to Admin Board</a>
+    <div class="container" style="padding: 50px">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-block">
+                        <h3 class="card-title">{{title}} ({{member.firstname}} {{member.lastname}})</h3>
+                        <p class="card-text">Firstname: {{member.firstname}}</p>
+                        <p class="card-text">Lastname: {{member.lastname}}</p>
+                        <p class="card-text">Mobile: {{member.mobileNo}}</p>
+                        <p class="card-text">Email: {{member.email}}</p>
+                        <p class="card-text">Gender: {{member.gender}}</p>
+                        <p class="card-text">Birth Date: {{member.birthDate}}</p>
+                        <p class="card-text">{{#ifEquals member.isWorker "yes"}}Worker: Yes{{else}}Worker:
+                            No{{/ifEquals}}</p>
+                        <p>
+                            <button><a
+                                    href="/recordDonation?first_name={{member.firstname}}&last_name={{member.lastname}}&mid={{member._id}}">Add
+                                    donation</a></button>
+                            <button><a href="/memberDonations?mid={{member._id}}">View all donations</a></button>
+                            <i class="material-icons">&nbsp;<a href="/editmemberprofile/{{member._id}}">edit</a></i>
+                            <i class="material-icons">&nbsp;<a id="delete" href="#"
+                                    data-id={{member._id}}>delete</a></i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#delete').on('click', function (e) {
+            console.log("I am here")
+            const $target = $(e.target)
+            const id = $target.attr('data-id');
+            $.ajax({
+                type: 'DELETE',
+                url: '/deletememberprofile/' + id,
+
+                success: function (data) {
+                    console.log('success');
+                    window.location.href = '/members';
+                },
+                error: function () {
+                    console.log('error');
+
+                }
+            })
+        })
+
+    </script>
+</body>
+
+</html>

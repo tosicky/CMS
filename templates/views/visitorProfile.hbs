@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    <title></title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body style="text-align: center;">
+    <a href="/">Return
+        to Home</a> |
+    <a href="/visitors">View All Visitors/Newcomers</a> |
+    <a href="/members">View All Members</a> |
+    <a href="/adminboard">Return to Admin Board</a>
+
+    <div class="container" style="padding: 50px">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-block">
+                        <h3 class="card-title">{{title}} ({{visitor.firstname}} {{visitor.lastname}})</h3>
+                        <p class="card-text">Firstname: {{visitor.firstname}}</p>
+                        <p class="card-text">Lastname: {{visitor.lastname}}</p>
+                        <p class="card-text">Mobile: {{visitor.mobile}}</p>
+                        <p class="card-text">Email: {{visitor.email}}</p>
+                        <p class="card-text">Gender: {{visitor.gender}}</p>
+                        <p class="card-text">Marital Status: {{visitor.maritalStatus}}</p>
+                        <p class="card-text">Country of Residence: {{visitor.residence}}</p>
+                        <p class="card-text">Date First Visited: {{visitor.visitDate}}</p>
+                        <p>
+                            <button><a
+                                    href="/recordDonation?first_name={{visitor.firstname}}&last_name={{visitor.lastname}}&gid={{visitor._id}}">Add
+                                    donation</a></button>
+                            <button><a href="/guestDonations?gid={{visitor._id}}">View all donations</a></button>
+                            <i class="material-icons">&nbsp;<a href="/editguestprofile/{{visitor._id}}">edit</a></i>
+                            <i class="material-icons">&nbsp;<a id="delete" href="#"
+                                    data-id={{visitor._id}}>delete</a></i>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        $('#delete').on('click', function (e) {
+            const $target = $(e.target)
+            const id = $target.attr('data-id');
+            $.ajax({
+                type: 'DELETE',
+                url: '/deleteguestprofile/' + id,
+
+                success: function (data) {
+                    console.log('success');
+                    window.location.href = '/visitors';
+                },
+                error: function () {
+                    console.log('error');
+
+                }
+            })
+        })
+
+    </script>
+</body>
+
+</html>

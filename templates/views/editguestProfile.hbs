@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Church Managment System</title>
+    <link rel="icon" href="/images/weather.png">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet"
+        type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/landing-page.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    {{!-- {{>nav}}
+    {{>header}} --}}
+    <div class="container">
+        <p>
+            <a href="/">Return to Home</a> |
+            <a href="/adminboard">Return to Admin Board</a> |
+            <a href="/visitorprofile/{{visitor._id}}">Back to Profile</a>
+        </p>
+        <div class="row justify-content-center">
+            <p style="color: red">{{#if err}}Errors filling forms: {{err}}{{/if}}</p>
+            <form method="POST" action="/editguestprofile/{{visitor._id}}?_method=PUT">
+                <h3>{{title}}</h3><br />
+                <div class=" form-group col-md-12">
+                    <label for="exampleInputPassword1">Firstname:</label>
+                    <input type="text" class="form-control" id="firstname" value={{visitor.firstname}} name="firstname">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="exampleInputPassword1">Lastname:</label>
+                    <input type="text" class="form-control" id="lastname" value={{visitor.lastname}} name="lastname">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="exampleInputEmail1">Email address:</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                        value={{visitor.email}} name="email">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="mobileNo">Mobile No:</label>
+                    <input type="text" class="form-control" id="mobileNo" value={{visitor.mobile}} name="mobile">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="worker">Gender</label>
+                    <div class="form-check col-md-2">
+                        <input class="form-check-input" type="radio" value="Male" id="defaultCheck1" name="gender"
+                            {{#ifEquals visitor.gender "Male"}}checked="checked" {{/ifEquals}}>
+                        <label class="form-check-label" for="defaultCheck1">
+                            Male
+                        </label>
+                    </div>
+                    <div class="form-check col-md-2">
+                        <input class="form-check-input" type="radio" value="Female" id="defaultCheck2" name="gender"
+                            {{#ifEquals visitor.gender "Female"}}checked="checked" {{/ifEquals}}>
+                        <label class="form-check-label" for="defaultCheck2">
+                            Female
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="group">Marital Status:</label>
+                    <select class="form-control" id="m_status" name="maritalStatus">
+                        <option selected value={{visitor.maritalStatus}}> {{visitor.maritalStatus}} </option>
+                        {{#ifnotEquals visitor.maritalStatus "Single"}}<option value="Single">Single</option>
+                        {{/ifnotEquals}}
+                        {{#ifnotEquals visitor.maritalStatus "Married"}}<option value="Married">Married</option>
+                        {{/ifnotEquals}}
+                        {{#ifnotEquals visitor.maritalStatus "Divorced"}}<option value="Divorced">Divorced</option>
+                        {{/ifnotEquals}}
+                        {{#ifnotEquals visitor.maritalStatus "Seperated"}}<option value="Seperated">Seperated</option>
+                        {{/ifnotEquals}}
+                    </select>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="visit_date">Date of Visit:</label>
+                    <input type="date" class="form-control" id="visit_date" value={{visitDate}} name="visitDate">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="country">Country of Residence:</label>
+                    <select name="residence" class="countries" id="countryId">
+                        <option selected value={{visitor.residence}}> {{visitor.residence}} </option>
+                        <option value="">Select Country</option>
+                    </select>
+                </div>
+
+
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+        </div>
+    </div>
+    </form>
+
+    {{>footer}}
+
+    <script src="/public/js/app.js"></script>
+    <script src="//geodata.solutions/includes/countrystatecity.js"></script>
+</body>
+
+</html>

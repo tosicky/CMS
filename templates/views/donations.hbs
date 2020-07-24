@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Church Managment System</title>
+    {{!-- <link rel="icon" href="/images/weather.png"> --}}
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="main-content table-responsive" style="text-align: center;">
+        {{!-- {{>header}} --}}
+        <a href="/">Return
+            to Home</a> |
+        <a href="/members">View All Members</a> |
+        {{#if memberId}}<a href="/memberProfile/{{memberId}}">Back to Profile</a>{{/if}}
+        {{#if gId}}<a href="/visitorProfile/{{gId}}">Back
+            to Profile</a>{{/if}} |
+        <a href="/adminboard">Return to Admin Board</a>
+
+        <h3>{{#if donations}}Donations made by {{donations.[0].donatedBy.firstname}}
+            {{donations.[0].donatedBy.lastname}}{{else}}No Donations Made{{/if}}</h3>
+
+
+        <table class="table table-striped w-auto mx-auto">
+            <thead>
+                <tr>
+                    <th class="th-lg">#</th>
+                    <th class="th-lg">Donation Date</th>
+                    <th class="th-lg">Amount</th>
+                </tr>
+            </thead>
+
+
+            {{#each donations}}
+
+            <tbody>
+                <tr>
+                    <th scope="row">{{inc @index}}</th>
+                    <td>{{donationDate}}</td>
+                    <td>{{amount}}</td>
+                </tr>
+            </tbody>
+            {{/each}}
+            <tbody>
+                <tr>
+                    <p>Total Contribution Made: {{total}}</p>
+                </tr>
+            </tbody>
+        </table>
+        {{!-- <div>
+            <p>
+                <li>{{donationDate}} - {{amount}} </li>
+            </p>
+        </div> --}}
+
+        {{!-- <p>{{donation._id}}</p> --}}
+
+
+    </div>
+    {{>footer}}
+
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
