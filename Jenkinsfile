@@ -10,7 +10,7 @@ pipeline {
         stage('Build Image') {
             steps {
                 script {
-                    def app = docker.build("CMS")
+                    def app = docker.build("tosicky/allhands-dev:cms-app-v1")
                     docker.withRegistry('https://registry.hub.docker.com', 'cred') {
                     app.push("${env.BUILD_NUMBER}")
                     app.push("cms-app:latest")
