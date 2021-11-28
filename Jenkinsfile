@@ -23,6 +23,7 @@ pipeline {
                 timeout(time: 2, unit: 'MINUTES') {
                     sshagent(credentials: ['ec2-dev']) {
                         sh "scp -o StrictHostKeyChecking=no  deploy_image.sh ec2-user@52.89.51.188:"
+                        sh "ssh -o StrictHostKeyChecking=no ec2-user@52.89.51.188 chmod a+x deploy_image.sh"
                         sh "ssh -o StrictHostKeyChecking=no ec2-user@52.89.51.188 ./deploy_image.sh"
                     }
                 }
