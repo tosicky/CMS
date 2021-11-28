@@ -18,14 +18,6 @@ pipeline {
             }
         }
       }
-        stage('Deploy image ec2') {
-            steps {
-                timeout(time: 2, unit: 'MINUTES') {
-                    sshagent(credentials: ['ec2-dev']) {
-                        sh "ssh ec2-user@52.89.51.188 ./deploy_image.sh"
-                    }
-                }
-            }
-        }
+        
     }
 }
