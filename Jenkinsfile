@@ -17,6 +17,8 @@ pipeline {
                 }
             }
         }
+      }
+        stage('Deploy image ec2') {
             steps {
                 timeout(time: 2, unit: 'MINUTES') {
                     sshagent(credentials: ['ec2-dev']) {
