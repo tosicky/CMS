@@ -1,0 +1,24 @@
+pipeline {
+  agent any
+  
+  tools {nodejs "node"}
+
+ stages{
+  stage('SCM') {
+      steps{
+        git 'https://github.com/tosicky/CMS.git'
+      }
+  }
+  stage('SonarQube analysis') {
+       steps{
+         script {
+            def scannerHome = tool 'sonarqube';
+        
+            withSonarQubeEnv('sonarqube') { // If you have configured more than one global server connection, you can specify its name
+            sh "${scannerHome}/bin/sonar-scanner"
+         }
+      }
+    }
+  }
+ }
+}
