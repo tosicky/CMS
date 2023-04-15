@@ -7,7 +7,7 @@ pipeline {
 //             }
 //         }
         
-        stage('Build Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     def app = docker.build("tosicky/allhandsdev:cms-app-v1")
