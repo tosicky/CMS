@@ -1,0 +1,63 @@
+pipeline {
+  agent any
+  
+  tools {nodejs "node"}
+  
+
+ stages{
+  stage('SCM') {
+      steps{
+        git 'https://github.com/tosicky/CMS.git'
+      }
+  }
+  stage('SonarQube analysis') {
+       steps{
+         script {
+            def scannerHome = tool 'sonarqube';
+        
+            withSonarQubeEnv('sonarqube') { // If you have configured more than one global server connection, you can specify its name
+            sh "${scannerHome}/bin/sonar-scanner"
+         }
+      }
+    }
+  }
+  stage('Slack Message') {
+      steps {
+        notifyProductionDeploy()
+      }
+  }
+ }
+//  post{
+     
+//         failure{
+//             slackSend( channel: "#devops", color: "red", message:"${custom_msg()}")
+//         }
+ 
+//         success{
+//             slackSend( channel: "#devops", color: "good", message: "${custom_msg()}")
+//         }
+//     }
+
+}
+
+// def custom_msg()
+// {
+//   def JENKINS_URL= "localhost:8080"
+//   def JOB_NAME = env.JOB_NAME
+//   def BUILD_ID= env.BUILD_ID
+//   def JENKINS_LOG= " FAILED: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"
+//   return JENKINS_LOG
+// }
+
+/* Slack Notification Set */
+def notifyProductionDeploy() {
+if (currentBuild.currentResult == 'SUCCESS') {
+    def message = "@here Build <${env.BUILD_URL}|${currentBuild.displayName}> " +
+        "${currentBuild.currentResult}"
+    slackSend(message: message, channel: '#devops', color: 'good')
+} else {
+    def message = "@here Build <${env.BUILD_URL}|${currentBuild.displayName}> " +
+        "${currentBuild.currentResult}"
+    slackSend(message: message, channel: '#devops', color: 'danger')
+}
+}
