@@ -21,22 +21,40 @@ pipeline {
       }
     }
   }
-  stage('Slack Message') {
-      steps {
-        notifyProductionDeploy()
-      }
-  }
+    stage('Build Docker Image') { 
+                steps { 
+                    script{
+                     app = docker.build("cms")
+                    }
+                }
+            }
+     stage('Push to ECR') {
+            steps {
+                script{
+                    withCredentials([string(credentialsId: 'ecr-url', variable: 'ECRURL')]) {
+                        withEnv(["ECRURL=${ECRURL}"]) {
+                            docker.withRegistry("$ECRURL", 'ecr:ca-central-1:aws-deploy') {
+                            app.push("${env.BUILD_NUMBER}")
+                            app.push("latest")
+                        }
+                    }
+                }
+              }
+        }
+     }
  }
-//  post{
+ post{
      
-//         failure{
-//             slackSend( channel: "#devops", color: "red", message:"${custom_msg()}")
-//         }
+        failure{
+            // slackSend( channel: "#devops", color: "red", message:"${custom_msg()}")
+            notifyProductionDeploy()
+        }
  
-//         success{
-//             slackSend( channel: "#devops", color: "good", message: "${custom_msg()}")
-//         }
-//     }
+        success{
+            // slackSend( channel: "#devops", color: "good", message: "${custom_msg()}")
+            notifyProductionDeploy()
+        }
+    }
 
 }
 
